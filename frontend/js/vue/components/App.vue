@@ -3,9 +3,14 @@
     <section class="app">
       <div class="wrapper">
         <div class="container">
-          <WelcomeScreen v-if="gameStatus === APP_STATUSES.WELCOME" />
-          <GameScreen v-else-if="gameStatus === APP_STATUSES.STARTED" />
-          <ResultScreen v-else />
+          <Transition
+            name="fade"
+            mode="out-in"
+          >
+            <WelcomeScreen v-if="gameStatus === APP_STATUSES.WELCOME" />
+            <GameScreen v-else-if="gameStatus === APP_STATUSES.STARTED" />
+            <ResultScreen v-else />
+          </Transition>
         </div>
       </div>
     </section>
@@ -85,5 +90,18 @@ body {
   align-items: center;
   padding-top: 2rem;
   padding-bottom: 2rem;
+}
+
+.fade-leave-active {
+  transition: all 0.3s ease;
+}
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-active {
+  transition: all 0.3s ease;
+}
+.fade-enter-from {
+  opacity: 0;
 }
 </style>

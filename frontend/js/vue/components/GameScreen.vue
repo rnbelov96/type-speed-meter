@@ -1,16 +1,24 @@
 <template>
   <div class="game-screen">
-    <p class="game-screen__text">
-      <span
-        v-for="symbol, index in currentQuote.split('')"
-        :key="`${symbol}-${index}`"
-        :class="{
-          '-active': currentLetterIndex === index,
-          '-ok': currentLetterIndex === index && currentLetterStatus === LETTER_STATUSES.OK,
-          '-error': currentLetterIndex === index && currentLetterStatus === LETTER_STATUSES.ERROR,
-        }"
-      >{{ symbol }}</span>
-    </p>
+    <Transition
+      name="fade"
+      mode="out-in"
+    >
+      <p
+        :key="currentQuote"
+        class="game-screen__text"
+      >
+        <span
+          v-for="symbol, index in currentQuote.split('')"
+          :key="`${symbol}-${index}`"
+          :class="{
+            '-active': currentLetterIndex === index,
+            '-ok': currentLetterIndex === index && currentLetterStatus === LETTER_STATUSES.OK,
+            '-error': currentLetterIndex === index && currentLetterStatus === LETTER_STATUSES.ERROR,
+          }"
+        >{{ symbol }}</span>
+      </p>
+    </Transition>
     <div class="game-screen__bottom-box">
       <div class="game-screen__speed-box">
         <p class="game-screen__speed-caption">
