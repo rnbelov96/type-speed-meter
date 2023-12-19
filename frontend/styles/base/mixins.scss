@@ -1,0 +1,117 @@
+@mixin bg {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@mixin aspect-ratio($height, $width) {
+  &::before {
+    float: left;
+    padding-top: calc((#{$width / $height}) * 100%);
+    content: '';
+  }
+
+  &::after {
+    display: block;
+    content: '';
+    clear: both;
+  }
+}
+
+@mixin disable-aspect-ratio {
+  &::before {
+    content: none;
+    padding-top: 0;
+    float: initial;
+  }
+
+  &::after {
+    content: none;
+    display: initial;
+    clear: initial;
+  }
+}
+
+@mixin gap($row-gap, $column-gap: 0px) {
+  @if $column-gap ==0px {
+    & {
+      margin-left: calc(-1 * #{$row-gap});
+      margin-top: calc(-1 * #{$row-gap});
+    }
+
+    &>* {
+      margin-left: $row-gap;
+      margin-top: $row-gap;
+    }
+  }
+
+  @else {
+    & {
+      margin-left: calc(-1 * #{$column-gap});
+      margin-top: calc(-1 * #{$row-gap});
+    }
+
+    &>* {
+      margin-left: $column-gap;
+      margin-top: $row-gap;
+    }
+  }
+}
+
+@mixin disable-gap {
+  & {
+    margin-left: 0;
+    margin-top: 0;
+  }
+
+  &>* {
+    margin-left: 0;
+    margin-top: 0;
+  }
+}
+
+@mixin set-link($color) {
+  color: $color;
+
+  &:focus,
+  &:active,
+  &:hover {
+    text-decoration: underline;
+    color: $color;
+  }
+}
+
+@mixin max-width($width) {
+  width: 100%;
+  max-width: $width;
+}
+
+@mixin central-align {
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+}
+
+@mixin x-align {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@mixin y-align {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@mixin media-breakpoint($name) {
+  $breakpoint: get-breakpoint-by-name($name);
+
+  @if $breakpoint {
+    @media (max-width: $breakpoint) {
+      @content;
+    }
+  }
+
+  @else {
+    @content;
+  }
+}

@@ -1,0 +1,9 @@
+@function rem($value) {
+  $remValue: calc($value / 16) + rem;	
+  @return $remValue;
+}
+
+@function get-breakpoint-by-name($name, $breakpoints: $media-breakpoints, $breakpoint-names: map-keys($breakpoints)) {
+  $breakpoint: map-get($breakpoints, $name);
+  @return $breakpoint;
+}
