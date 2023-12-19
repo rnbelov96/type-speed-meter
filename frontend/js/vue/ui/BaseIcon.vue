@@ -4,7 +4,7 @@
     :height="height"
     aria-hidden="true"
   >
-    <use :xlink:href="`/images/sprite.svg#${id}`" />
+    <use :xlink:href="`images/sprite.svg#${id}`" />
   </svg>
 </template>
 
