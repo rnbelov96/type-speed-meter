@@ -15,6 +15,7 @@
             '-active': currentLetterIndex === index,
             '-ok': currentLetterIndex === index && currentLetterStatus === LETTER_STATUSES.OK,
             '-error': currentLetterIndex === index && currentLetterStatus === LETTER_STATUSES.ERROR,
+            '-green': currentLetterIndex > index
           }"
         >{{ symbol }}</span>
       </p>
@@ -155,6 +156,10 @@ useEventListener(document, 'keydown', checkKey);
     &.-error {
       background-color: red;
     }
+  }
+
+  span.-green {
+    color: green;
   }
 }
 
