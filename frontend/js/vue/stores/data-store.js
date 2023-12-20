@@ -15,7 +15,9 @@ const useDataStore = defineStore('data', () => {
     if (result.status) {
       currentQuote.value = result.data.quoteText.replace(/—/g, '-').replace(/ё/g, 'е').trim();
 
-      currentSpeed.value = 0;
+      setTimeout(() => {
+        currentSpeed.value = 0;
+      }, 300);
       currentLetterIndex.value = 0;
       currentStatus.value = LETTER_STATUSES.OK;
     }
