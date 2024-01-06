@@ -33,7 +33,8 @@ const dataStore = useDataStore();
 
 const gameStatus = computed(() => appStore.gameStatus);
 
-dataStore.getQuote();
+// dataStore.getQuote();
+dataStore.loadQuote();
 </script>
 
 <style lang="scss">

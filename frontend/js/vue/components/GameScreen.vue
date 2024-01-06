@@ -32,6 +32,7 @@
       <TimerBox :seconds-left="timerData.timesLeft" />
       <BaseButton
         class="game-screen__start-over-btn"
+        :disabled="isQuoteLoading"
         @click="startOverBtnClickHandler"
       >
         Начать заново
@@ -66,6 +67,7 @@ const currentLetterIndex = computed(() => dataStore.currentLetterIndex);
 const currentSpeed = computed(() => dataStore.currentSpeed);
 const startedTime = computed(() => appStore.startedTime);
 const currentLetterStatus = computed(() => dataStore.currentStatus);
+const isQuoteLoading = computed(() => dataStore.isQuoteLoading);
 
 const calculateSpeed = () => {
   const currentTime = new Date();

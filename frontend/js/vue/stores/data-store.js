@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import textApi from '../../api/text-api';
 import { LETTER_STATUSES } from '../../utils/constants';
 
 const useDataStore = defineStore('data', () => {
@@ -8,19 +7,39 @@ const useDataStore = defineStore('data', () => {
   const currentStatus = ref(LETTER_STATUSES.OK);
   const currentLetterIndex = ref(0);
   const currentSpeed = ref(0);
+  const isQuoteLoading = ref(false);
 
-  const getQuote = async () => {
-    const result = await textApi.getQuote();
+  let scriptEl = null;
+  let loadResolveCallback = null;
 
-    if (result.status) {
-      currentQuote.value = result.data.quoteText.replace(/—/g, '-').replace(/ё/g, 'е').trim();
+  const loadQuote = () => new Promise(res => {
+    loadResolveCallback = res;
 
-      setTimeout(() => {
-        currentSpeed.value = 0;
-      }, 300);
-      currentLetterIndex.value = 0;
-      currentStatus.value = LETTER_STATUSES.OK;
+    isQuoteLoading.value = true;
+    if (scriptEl) {
+      scriptEl.remove();
     }
+    scriptEl = document.createElement('script');
+    scriptEl.src = 'https://api.forismatic.com/api/1.0/?method=getQuote&format=jsonp&jsonp=setQuote';
+    document.head.appendChild(scriptEl);
+  });
+
+  window.setQuote = (result) => {
+    currentQuote.value = result.quoteText.replace(/—/g, '-').replace(/ё/g, 'е').trim();
+
+    setTimeout(() => {
+      currentSpeed.value = 0;
+    }, 300);
+    currentLetterIndex.value = 0;
+    currentStatus.value = LETTER_STATUSES.OK;
+
+    if (loadResolveCallback) {
+      loadResolveCallback(true);
+    }
+
+    setTimeout(() => {
+      isQuoteLoading.value = false;
+    }, 2000);
   };
 
   const changeCurrentLetterStatus = (newStatus) => {
@@ -40,10 +59,11 @@ const useDataStore = defineStore('data', () => {
     currentStatus,
     currentLetterIndex,
     currentSpeed,
-    getQuote,
+    isQuoteLoading,
     changeCurrentLetterStatus,
     changeCurrentLetterIndex,
     changeCurrentSpeed,
+    loadQuote,
   };
 });
 

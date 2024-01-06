@@ -28,7 +28,7 @@ const useAppStore = defineStore('app', () => {
   const restartGame = async () => {
     const dataStore = useDataStore();
 
-    await dataStore.getQuote();
+    await dataStore.loadQuote();
     gameStatus.value = APP_STATUSES.STARTED;
     startedTime.value = null;
     clearTimer();
